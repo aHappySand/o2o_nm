@@ -1,8 +1,10 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/8/8 21:28:43                            */
+/* Created on:     2019/8/8 23:43:18                            */
 /*==============================================================*/
 
+
+drop table if exists Token;
 
 drop index business_city_id_idx on business;
 
@@ -46,18 +48,36 @@ drop index shop_category_id_idx on shop;
 
 drop table if exists shop;
 
-drop table if exists shopManger;
+drop table if exists shop_manager;
 
-drop index tradeArea_city_id_idx on tradeArea;
+drop index tradeArea_city_id_idx on trade_area;
 
-drop table if exists tradeArea;
+drop table if exists trade_area;
+
+/*==============================================================*/
+/* Table: Token                                                 */
+/*==============================================================*/
+create table Token
+(
+   id                   int not null auto_increment,
+   token_val            varchar(255),
+   token_type           enum(1,2,3) default '1' comment 'token类型，1:pc,2:app，3:ipad',
+   time_out             int(11) comment '过期时间',
+   weight               int comment '权重',
+   create_at            int(11) not null comment '创建时间',
+   update_at            int(11) not null comment '更新时间',
+   status               tinyint(1) not null default 1 comment '状态',
+   primary key (id)
+);
+
+alter table Token comment 'token管理';
 
 /*==============================================================*/
 /* Table: business                                              */
 /*==============================================================*/
 create table business
 (
-   id                   int not null,
+   id                   int not null auto_increment,
    name                 varchar(50) comment '商户名称',
    email                varchar(50) comment '商户邮件地址',
    logo                 varchar(255) comment 'logo地址',
@@ -93,7 +113,7 @@ create index business_city_id_idx on business
 /*==============================================================*/
 create table business_user
 (
-   id                   int not null,
+   id                   int not null auto_increment,
    username             varchar(30) comment '用户名',
    password             char(32) comment '密码',
    code                 varchar(10) comment '随机数',
@@ -123,7 +143,7 @@ create unique index business_user_username_idx on business_user
 /*==============================================================*/
 create table category
 (
-   id                   int not null,
+   id                   int not null auto_increment,
    parent_id            smallint default 0,
    item                 varchar(50) not null,
    code                 varchar(10) not null,
@@ -141,7 +161,7 @@ alter table category comment '分类';
 /*==============================================================*/
 create table city
 (
-   id                   int not null,
+   id                   int not null auto_increment,
    parent_id            smallint default 0,
    item                 varchar(50) not null,
    code                 varchar(10) not null,
@@ -167,7 +187,7 @@ create index city_item on city
 /*==============================================================*/
 create table coupon
 (
-   id                   int not null,
+   id                   int not null auto_increment,
    weight               int comment '权重',
    create_at            int(11) not null comment '创建时间',
    update_at            int(11) not null comment '更新时间',
@@ -182,7 +202,7 @@ alter table coupon comment '消费券';
 /*==============================================================*/
 create table member
 (
-   id                   int not null,
+   id                   int not null auto_increment,
    username             varchar(20) not null,
    password             char(32) not null,
    code                 varchar(10),
@@ -228,7 +248,7 @@ create unique index member_mobile_index on member
 /*==============================================================*/
 create table "order"
 (
-   id                   int not null,
+   id                   int not null auto_increment,
    weight               int comment '权重',
    create_at            int(11) not null comment '创建时间',
    update_at            int(11) not null comment '更新时间',
@@ -243,7 +263,7 @@ alter table "order" comment '订单';
 /*==============================================================*/
 create table product
 (
-   id                   int not null,
+   id                   int not null auto_increment,
    name                 varchar(100),
    catetory_id          smallint,
    se_category_id       smallint,
@@ -300,7 +320,7 @@ create index product_current_price on product
 /*==============================================================*/
 create table recommend
 (
-   id                   int not null,
+   id                   int not null auto_increment,
    type                 smallint comment '类型',
    title                varchar(30) comment '标题',
    image                varchar(255) comment '图片',
@@ -320,7 +340,7 @@ alter table recommend comment '推荐位';
 /*==============================================================*/
 create table shop
 (
-   id                   int not null,
+   id                   int not null auto_increment,
    name                 varchar(50) comment '门店名',
    logo                 varchar(255),
    address              varchar(255) comment '门店地址',
@@ -364,11 +384,11 @@ create index shop_city_id_idx on shop
 );
 
 /*==============================================================*/
-/* Table: shopManger                                            */
+/* Table: shop_manager                                          */
 /*==============================================================*/
-create table shopManger
+create table shop_manager
 (
-   id                   int not null,
+   id                   int not null auto_increment,
    weight               int comment '权重',
    create_at            int(11) not null comment '创建时间',
    update_at            int(11) not null comment '更新时间',
@@ -376,14 +396,14 @@ create table shopManger
    primary key (id)
 );
 
-alter table shopManger comment '门店管理员';
+alter table shop_manager comment '门店管理员';
 
 /*==============================================================*/
-/* Table: tradeArea                                             */
+/* Table: trade_area                                            */
 /*==============================================================*/
-create table tradeArea
+create table trade_area
 (
-   id                   int not null,
+   id                   int not null auto_increment,
    name                 varchar(50) comment '名称',
    city_id              smallint,
    parent_id            int,
@@ -394,12 +414,12 @@ create table tradeArea
    primary key (id)
 );
 
-alter table tradeArea comment '商圈';
+alter table trade_area comment '商圈';
 
 /*==============================================================*/
 /* Index: tradeArea_city_id_idx                                 */
 /*==============================================================*/
-create index tradeArea_city_id_idx on tradeArea
+create index tradeArea_city_id_idx on trade_area
 (
    city_id
 );

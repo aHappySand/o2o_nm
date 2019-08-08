@@ -2,10 +2,6 @@
 namespace app\api\controller;
 
 
-use app\api\service\PcTokenService;
-use app\api\service\UserService;
-use mysql_xdevapi\BaseResult;
-
 class AuthBase extends BusinessBase
 {
     public $loginInfo = [];
