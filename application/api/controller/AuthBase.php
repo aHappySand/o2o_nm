@@ -1,13 +1,4 @@
 <?php
-/**
- * AuthBase.php
- *
- * @data 19/6/8
- * @author Henry <8323216@qq.com>
- * @link http://www.hisun360.com/
- * @copyright Copyright© 2012 - 2015 HISUN. All Rights Reserved.
- */
-
 namespace app\api\controller;
 
 
