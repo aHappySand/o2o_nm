@@ -31,14 +31,14 @@ class Category extends Base
     public function index()
     {
         $parent = input('parent_id');
-        $where = null;
+        $where = array('status' => ['neq', -1]);
         if($parent || $parent === '0'){
-            $where = array("parent_id" => $parent);
+            $where['parent_id'] = $parent;
         }
         $page = input('page');
         $page = $page ? $page : 1;
         $objCategory = $this->objCategory;
-        $categorys = $objCategory->some($where, $page);
+        $categorys = $objCategory->some($where, $page, 10, array('weight' => 'asc', 'create_time' =>'desc'));
 //        $count = $objCategory->count();
 //        $render = new PageRender($count, 10);
 //        $links = $render->simpleLinks();
@@ -116,6 +116,32 @@ class Category extends Base
             }
         }else{
             $this->objCategory->deleteSome($id);
+        }
+    }
+
+    public function status()
+    {
+        $data = array(
+            'status' => input('status')
+        );
+        $result = $this->objCategory->edit($data, array('id' => input('id')));
+        if($result){
+            $this->success('更新成功');
+        }else{
+            $this->error('更新失败');
+        }
+    }
+
+    public function weight()
+    {
+        $data = array(
+            'weight' => input('weight')
+        );
+        $result = $this->objCategory->edit($data, array('id' => input('id')));
+        if($result){
+            $this->success('更新成功');
+        }else{
+            $this->error('更新失败');
         }
     }
 

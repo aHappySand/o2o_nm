@@ -22,9 +22,9 @@ class BaseService
      * @param int $perPage 每页多少项
      * @return mixed
      */
-    public function some($where, $currentPage = 1, $perPage = 10)
+    public function some($where, $currentPage = 1, $perPage = 10, $order)
     {
-        return $this->model->where($where)->paginate(array(
+        return $this->model->where($where)->order($order)->paginate(array(
             'list_rows' => $perPage,
             'page' => $currentPage
         ));

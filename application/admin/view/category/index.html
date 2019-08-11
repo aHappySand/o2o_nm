@@ -27,9 +27,9 @@
 					<td><input name="" type="checkbox" value=""></td>
 					<td>{$category.id}</td>
 					<td>{$category.item}</td>
-					<td class="text-c">{$category.weight}</td>
+					<td class="text-c weight-order"><input type="text" size="3" value="{$category.weight}" attr-id="{$category.id}"></td>
 					<td>{$category.create_time}</td>
-					<td class="td-status"><a href="" title="点击修改状态">
+					<td class="td-status"><a href="javascript:void(0)" onclick="changeStatus('{$category.id}', {$category.status})" title="点击修改状态">
 						{$category.status|categoryStatus}
 					</a></td>
 					<td class="td-manage">
@@ -46,5 +46,22 @@
 <!--包含头部文件-->
 {include file="public/footer" /}
 <script>
+	function changeStatus(id, status){
+		let url = "{:url('admin/category/status')}";
+		let data = {'id': id, status: status === 1 ? 0 : 1};
+		var target = event.target || event.srcElement;
+		$.post(url, data, function (result) {
+			if(result && result['code'] == 1){
+				if(status == 1){
+					$(target).removeClass('label-success').addClass('label-default').html( '待审');
+				}else{
+					$(target).removeClass('label-default').addClass('label-success').html('正常');
+				}
+			}
+		}, 'json');
+	}
 
+	var SCOPE = {
+		url: "{:url('admin/category/weight')}"
+	};
 </script>

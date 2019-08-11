@@ -49,6 +49,6 @@ class Base extends Model
         if (is_numeric($where)) {
             $where = $this->getPk() . '=' . $where;
         }
-        return $this->where($where)->delete(true);
+        return $this->where($where)->update(array('status' => -1));
     }
 } 
