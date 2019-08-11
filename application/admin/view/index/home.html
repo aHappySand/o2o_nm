@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="__INDEX_STATID__/js/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<div>
+    <input type="radio" name="map" value="bd">百度
+    <input type="radio" name="map" value="gd">高德
+
+    <input type="text" id="address" name="address"> <input type="button" onclick="getGeoCode()" value="搜索">
+    <div id="result">
+        <textarea></textarea>
+    </div>
+</div>
+
+<div>
+
+    <input type="text" id="location" name="location"> <input type="button" onclick="getStaticImg()" value="搜索">
+    <div id="img-result">
+        <img src="" style="">
+    </div>
+
+</div>
+</body>
+
+<script>
+    function getGeoCode(){
+        var address = $('#address').val();
+        var map = $(':radio[name="map"]:checked').val();
+        $.post("{:url('api/map/geocode')}", {address: address, map: map}, function (result) {
+            if(result && result['code'] == 1){
+                $('#result').children("textarea").val(JSON.stringify(result['data']));
+                getStaticImg(result['data'][0]['location'], map);
+            }
+        }, 'json');
+    }
+
+    function getStaticImg(location, map){
+        location = location || $('#location').val();
+        map = map || $(':radio[name="map"]:checked').val();
+        
+        $.post("{:url('api/map/staticmap')}", {location: location, map: map}, function (result) {
+            if(result && result['code'] == 1){
+                $('#img-result').children("img").attr('src', result['data']['src']);
+            }
+        }, 'json');
+    }
+</script>
+</html>

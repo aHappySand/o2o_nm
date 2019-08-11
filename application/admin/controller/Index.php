@@ -11,4 +11,14 @@ class Index extends Controller
     {
         return $this->fetch();
     }
+
+    /**
+     * 首页
+     */
+    public function home(){
+
+//        \phpmailer\Mailer::sendEmail('1125980522@qq.com', 'test', '可以吗？');
+
+        return $this->fetch();
+    }
 }

@@ -76,7 +76,7 @@ class Base extends Controller
      */
     public function ajaxSuccess($msg, $data = [])
     {
-        return $this->ajaxDone(0, $msg, $data);
+        return $this->ajaxDone(1, $msg, $data);
     }
 
     /**
@@ -86,7 +86,7 @@ class Base extends Controller
      * @param array $data
      * @return array
      */
-    public function ajaxFail($msg, $error = 1, $data = [])
+    public function ajaxFail($msg, $error = 0, $data = [])
     {
         return $this->ajaxDone($error, $msg, $data);
     }
@@ -128,7 +128,7 @@ class Base extends Controller
      * @param array $data
      * @return array|void
      */
-    protected function runtError($msg, $error = 1, array $data = array())
+    protected function runtError($msg, $error = 0, array $data = array())
     {
         if (request()->isAjax() || $this->isAjax === true) {
             return $this->ajaxFail($msg, $error, $data);

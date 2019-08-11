@@ -238,6 +238,18 @@ function curl_post($url, $data)
     return $result;
 }
 
+
+function curl_get($url)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_POST, 0);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+}
 function send_sms_curl_253($url, $data)
 {
     $postData = json_encode($data);

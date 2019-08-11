@@ -2,3 +2,5 @@
 composer.lock
 *.log
 thinkphp
+application/extra/mail.php
+application/extra/map.php
