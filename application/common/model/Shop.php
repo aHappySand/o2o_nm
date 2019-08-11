@@ -2,9 +2,9 @@
 
 namespace app\common\model;
 
-use think\Model;
+use app\common\model\Base;
 
-class Shop extends Model
+class Shop extends Base
 {
     //
 }

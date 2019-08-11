@@ -1,9 +1,9 @@
 <?php
 namespace app\common\model;
 
-use think\Model;
+use app\common\model\Base;
 
-class UserType extends Model
+class UserType extends Base
 {
 
 }

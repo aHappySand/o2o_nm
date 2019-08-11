@@ -2,9 +2,9 @@
 
 namespace app\common\model;
 
-use think\Model;
+use app\common\model\Base;
 
-class Recommend extends Model
+class Recommend extends Base
 {
     //
 }

@@ -18,9 +18,9 @@ class Base extends Controller
 {
     protected $isAjax = false;
 
-    protected function initialize()
+    protected function _initialize()
     {
-        parent::initialize();
+        parent::_initialize();
         $this->uploadBaseUrl = $this->request->domain() . '/upload/';
     }
 

@@ -7,17 +7,32 @@ class BaseService
 
     public function one($where, $field = '*', $orderBy = '')
     {
-        return $this->model->findOne($where, $field, $orderBy);
+        return $this->model->find($where, $field, $orderBy);
     }
 
-    public function delete($where)
+    public function deleteSome($where)
     {
         return $this->model->deleteSome($where);
     }
 
-    public function some($where)
+
+    /**
+     * @param $where
+     * @param int $currentPage 当前页码
+     * @param int $perPage 每页多少项
+     * @return mixed
+     */
+    public function some($where, $currentPage = 1, $perPage = 10)
     {
-        return $this->model->where($where)->all();
+        return $this->model->where($where)->paginate(array(
+            'list_rows' => $perPage,
+            'page' => $currentPage
+        ));
+    }
+
+    public function all($where)
+    {
+        return $this->model->where($where)->select();
     }
 
     public function create($data)
@@ -63,12 +78,12 @@ class BaseService
         return $res;
     }
 
-    public function count($where)
+    public function count($where = null)
     {
         return $this->model->where($where)->count();
     }
 
-    public function sum($where, $field)
+    public function sum($where, $field = null)
     {
         return $this->model->where($where)->sum($field);
     }

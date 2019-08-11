@@ -1,10 +1,9 @@
 <?php
 
 namespace app\common\model;
+use app\common\model\Base;
 
-use think\Model;
-
-class Coupon extends Model
+class Coupon extends Base
 {
     //
 }

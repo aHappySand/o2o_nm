@@ -7,9 +7,9 @@ class AuthBase extends BusinessBase
     public $loginInfo = [];
     public $uid = 0;
 
-    public function initialize()
+    public function _initialize()
     {
-        parent::initialize();
+        parent::_initialize();
         $this->checkToken();
     }
 

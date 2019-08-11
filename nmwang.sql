@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/8/8 23:43:18                            */
+/* Created on:     2019/8/9 22:00:28                            */
 /*==============================================================*/
 
 
@@ -30,8 +30,6 @@ drop index member_username_index on member;
 
 drop table if exists member;
 
-drop table if exists "order";
-
 drop index product_current_price on product;
 
 drop index product_business_id on product;
@@ -50,6 +48,8 @@ drop table if exists shop;
 
 drop table if exists shop_manager;
 
+drop table if exists shop_order;
+
 drop index tradeArea_city_id_idx on trade_area;
 
 drop table if exists trade_area;
@@ -61,11 +61,11 @@ create table Token
 (
    id                   int not null auto_increment,
    token_val            varchar(255),
-   token_type           enum(1,2,3) default '1' comment 'token类型，1:pc,2:app，3:ipad',
+   token_type           enum("1","2","3") default '1' comment 'token类型，1:pc,2:app，3:ipad',
    time_out             int(11) comment '过期时间',
    weight               int comment '权重',
-   create_at            int(11) not null comment '创建时间',
-   update_at            int(11) not null comment '更新时间',
+   create_time          int(11) not null comment '创建时间',
+   update_time          int(11) not null comment '更新时间',
    status               tinyint(1) not null default 1 comment '状态',
    primary key (id)
 );
@@ -92,8 +92,8 @@ create table business
    legal_user           varchar(50) comment '法人',
    legal_tel            varchar(20) comment '法人联系电话',
    weight               int comment '权重',
-   create_at            int(11) not null comment '创建时间',
-   update_at            int(11) not null comment '更新时间',
+   create_time          int(11) not null comment '创建时间',
+   update_time          int(11) not null comment '更新时间',
    status               tinyint(2) not null default 1 comment '状态',
    primary key (id)
 );
@@ -122,8 +122,8 @@ create table business_user
    last_login_time      int,
    is_main              smallint comment '是否为总管理员',
    weight               int comment '权重',
-   create_at            int(11) not null comment '创建时间',
-   update_at            int(11) not null comment '更新时间',
+   create_time          int(11) not null comment '创建时间',
+   update_time          int(11) not null comment '更新时间',
    status               tinyint(2) not null default 1 comment '状态',
    primary key (id)
 );
@@ -148,8 +148,8 @@ create table category
    item                 varchar(50) not null,
    code                 varchar(10) not null,
    weight               int comment '权重',
-   create_at            int(11) not null comment '创建时间',
-   update_at            int(11) not null comment '更新时间',
+   create_time          int(11) not null comment '创建时间',
+   update_time          int(11) not null comment '更新时间',
    status               tinyint(2) not null default 1 comment '状态',
    primary key (id)
 );
@@ -166,8 +166,8 @@ create table city
    item                 varchar(50) not null,
    code                 varchar(10) not null,
    weight               int comment '权重',
-   create_at            int(11) not null comment '创建时间',
-   update_at            int(11) not null comment '更新时间',
+   create_time          int(11) not null comment '创建时间',
+   update_time          int(11) not null comment '更新时间',
    status               tinyint(2) not null default 1 comment '状态',
    primary key (id)
 );
@@ -189,8 +189,8 @@ create table coupon
 (
    id                   int not null auto_increment,
    weight               int comment '权重',
-   create_at            int(11) not null comment '创建时间',
-   update_at            int(11) not null comment '更新时间',
+   create_time          int(11) not null comment '创建时间',
+   update_time          int(11) not null comment '更新时间',
    status               tinyint(2) not null default 1 comment '状态',
    primary key (id)
 );
@@ -211,8 +211,8 @@ create table member
    email                varchar(32) not null,
    mobile               varchar(20) not null,
    weight               int comment '权重',
-   create_at            int(11) not null comment '创建时间',
-   update_at            int(11) not null comment '更新时间',
+   create_time          int(11) not null comment '创建时间',
+   update_time          int(11) not null comment '更新时间',
    status               tinyint(2) not null default 1 comment '状态',
    primary key (id)
 );
@@ -244,21 +244,6 @@ create unique index member_mobile_index on member
 );
 
 /*==============================================================*/
-/* Table: "order"                                               */
-/*==============================================================*/
-create table "order"
-(
-   id                   int not null auto_increment,
-   weight               int comment '权重',
-   create_at            int(11) not null comment '创建时间',
-   update_at            int(11) not null comment '更新时间',
-   status               tinyint(2) not null default 1 comment '状态',
-   primary key (id)
-);
-
-alter table "order" comment '订单';
-
-/*==============================================================*/
 /* Table: product                                               */
 /*==============================================================*/
 create table product
@@ -283,8 +268,8 @@ create table product
    balance_price        decimal(10,2) comment '平台提成',
    note                 text comment '提示',
    weight               int comment '权重',
-   create_at            int(11) not null comment '创建时间',
-   update_at            int(11) not null comment '更新时间',
+   create_time          int(11) not null comment '创建时间',
+   update_time          int(11) not null comment '更新时间',
    status               tinyint(2) not null default 1 comment '状态',
    primary key (id)
 );
@@ -327,8 +312,8 @@ create table recommend
    url                  varchar(255) comment '商品链接',
    description          varchar(255) comment '描述',
    weight               int comment '权重',
-   create_at            int(11) not null comment '创建时间',
-   update_at            int(11) not null comment '更新时间',
+   create_time          int(11) not null comment '创建时间',
+   update_time          int(11) not null comment '更新时间',
    status               tinyint(2) not null default 1 comment '状态',
    primary key (id)
 );
@@ -359,8 +344,8 @@ create table shop
    catetory_path        varchar(20),
    bank_info            varchar(50),
    weight               int comment '权重',
-   create_at            int(11) not null comment '创建时间',
-   update_at            int(11) not null comment '更新时间',
+   create_time          int(11) not null comment '创建时间',
+   update_time          int(11) not null comment '更新时间',
    status               tinyint(2) not null default 1 comment '状态',
    primary key (id)
 );
@@ -390,13 +375,28 @@ create table shop_manager
 (
    id                   int not null auto_increment,
    weight               int comment '权重',
-   create_at            int(11) not null comment '创建时间',
-   update_at            int(11) not null comment '更新时间',
+   create_time          int(11) not null comment '创建时间',
+   update_time          int(11) not null comment '更新时间',
    status               tinyint(2) not null default 1 comment '状态',
    primary key (id)
 );
 
 alter table shop_manager comment '门店管理员';
+
+/*==============================================================*/
+/* Table: shop_order                                            */
+/*==============================================================*/
+create table shop_order
+(
+   id                   int not null auto_increment,
+   weight               int comment '权重',
+   create_time          int(11) not null comment '创建时间',
+   update_time          int(11) not null comment '更新时间',
+   status               tinyint(2) not null default 1 comment '状态',
+   primary key (id)
+);
+
+alter table shop_order comment '订单';
 
 /*==============================================================*/
 /* Table: trade_area                                            */
@@ -408,8 +408,8 @@ create table trade_area
    city_id              smallint,
    parent_id            int,
    weight               int comment '权重',
-   create_at            int(11) not null comment '创建时间',
-   update_at            int(11) not null comment '更新时间',
+   create_time          int(11) not null comment '创建时间',
+   update_time          int(11) not null comment '更新时间',
    status               tinyint(2) not null default 1 comment '状态',
    primary key (id)
 );

@@ -2,9 +2,12 @@
 
 namespace app\common\model;
 
-use think\Model;
+use app\common\model\Base;
 
-class Business extends Model
+class Business extends Base
 {
     //
+    public function s()
+    {
+    }
 }

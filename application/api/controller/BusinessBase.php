@@ -7,9 +7,9 @@ use think\App;
 
 class BusinessBase extends Base
 {
-    public function initialize()
+    public function _initialize()
     {
-        parent::initialize();
+        parent::_initialize();
         $this->setIsAjax(true);
     }
 

@@ -1,10 +1,8 @@
 <?php
 
 namespace app\common\model;
-
-use think\Model;
-
-class Category extends Model
+use app\common\model\Base;
+class Category extends Base
 {
-    //
+
 }
