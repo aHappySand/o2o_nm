@@ -30,9 +30,9 @@ class BaseService
         ));
     }
 
-    public function all($where)
+    public function all($where = null, $order = null)
     {
-        return $this->model->where($where)->select();
+        return $this->model->where($where)->order($order)->select();
     }
 
     public function create($data)

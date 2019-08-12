@@ -12,5 +12,4 @@ class BusinessBase extends Base
         parent::_initialize();
         $this->setIsAjax(true);
     }
-
 }

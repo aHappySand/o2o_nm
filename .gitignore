@@ -4,3 +4,5 @@ composer.lock
 thinkphp
 application/extra/mail.php
 application/extra/map.php
+public/ueditor
+public/upload

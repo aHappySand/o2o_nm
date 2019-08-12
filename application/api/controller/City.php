@@ -2,15 +2,27 @@
 
 namespace app\api\controller;
 
+use app\common\service\CityService;
 use think\Controller;
 use think\Request;
 
-class City extends Controller
+class City extends BusinessBase
 {
     /**
+     * @param $parent_id
+     * 获取下级城市
+     */
+    public function sub($parent_id){
+        $objCity = new CityService();
+        $citys = $objCity->all(array('parent_id' => $parent_id), array('cityCode' => 'asc'));
+        $data = [];
+        foreach($citys as $city){
+            $data[] = ['id' => $city->id, 'name' => $city->item];
+        }
+        $this->runtSuccess('获取成功', $data);
+    }
+    /**
      * 显示资源列表
-     *
-     * @return \think\Response
      */
     public function index()
     {

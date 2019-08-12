@@ -144,5 +144,4 @@ class Category extends Base
             $this->error('更新失败');
         }
     }
-
 }

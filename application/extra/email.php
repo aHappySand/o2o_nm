@@ -8,8 +8,8 @@
 
 return [
     'host' => 'smtp.qq.com',
-    'port' => '465',//端口号465或587
+    'port' => '25',//端口号465或587
     'username' => '1254883879@qq.com',
-    'password' => '19898861.zjj',
+    'password' => 'jraegewpnkamifbb',
 
 ];

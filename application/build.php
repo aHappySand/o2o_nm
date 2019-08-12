@@ -48,4 +48,9 @@ return [
     'api'     => [
         '__dir__'    => ['controller', 'service']
     ],
+    'business'     => [
+        '__dir__'    => ['controller', 'view'],
+        'controller' => ['Registe', 'Login'],
+        'view'       => ['registe/index', 'login/index'],
+    ],
 ];
