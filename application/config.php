@@ -146,6 +146,7 @@ return [
     'view_replace_str'       => [
         "__INDEX_STATID__" => "/static/index",
         "__ADMIN_STATIC__" => "/static/admin",
+        "__STATID__" => '/static'
     ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',

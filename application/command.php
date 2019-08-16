@@ -10,5 +10,6 @@
 // +----------------------------------------------------------------------
 
 return [
-    "db:model" => "app\common\command\DbToModel"
+    "db:model" => "app\common\command\DbToModel",
+    "db:dicpath" => "app\common\command\DicPath",
 ];

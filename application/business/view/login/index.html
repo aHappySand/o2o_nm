@@ -1,33 +1,52 @@
 <!--包含头部文件-->
 {include file="public/header" /}
+{block name="stylesheet"}
+  <style>
+    .captcha{
+      display: none;}
+  </style>
+{/block}
 <input type="hidden" id="TenantId" name="TenantId" value="" />
 <div class="header"><h1 style="text-align:center">商户登录系统</h1></div>
 <div class="loginWraper">
 
   <div id="loginform" class="loginBox">
 
-    <form class="form form-horizontal" action="" method="post">
+    <form class="form form-horizontal" action="{:url('business/login/login')}" method="post">
       <div class="row cl">
         <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
         <div class="formControls col-xs-8">
-          <input id="" name="username" type="text" placeholder="账户" class="input-text size-L">
+          <input id="username" name="username" type="text" placeholder="账户" class="input-text size-L">
         </div>
       </div>
       <div class="row cl">
         <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
         <div class="formControls col-xs-8">
-          <input id="" name="password" type="password" placeholder="密码" class="input-text size-L">
+          <input id="password" name="password" type="password" placeholder="密码" class="input-text size-L">
         </div>
       </div>
-      
-      
+
+      <div class="row cl captcha">
+        <label class="form-label col-xs-3">验证码</label>
+        <div class="formControls col-xs-8">
+          <input id="" name="captcha" type="text" placeholder="验证码" class="input-text size-L">
+        </div>
+      </div>
+
+      <div class="row cl captcha">
+        <label class="form-label col-xs-3"> </label>
+        <div class="formControls col-xs-8">
+          <div id="captcha">{:captcha_img()}</div>
+        </div>
+      </div>
+
       <div class="row cl">
 
         <div class="formControls col-xs-8 col-xs-offset-3">
 
-          <input name="" type="submit" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
+          <input name="" type="button" onclick="check(this)" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
           <input name="" type="reset" class="btn btn-default radius size-L" value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;">
-          <a href=""><input name="" type="" class="btn btn-success radius size-L" value="&nbsp;申请&nbsp;&nbsp;&nbsp;&nbsp;入驻&nbsp;"></a>
+          <a href="{:url('business/registe/index')}"><input name="" type="" class="btn btn-success radius size-L" value="&nbsp;申请&nbsp;&nbsp;&nbsp;&nbsp;入驻&nbsp;"></a>
         </div>
       </div>
     </form>
@@ -36,3 +55,29 @@
 <div class="footer">Copyright tp5打造本地生活服务系统</div>
 <!--包含尾部文件-->
 {include file="public/footer" /}
+
+<script>
+
+  function check(_btn){
+    var username = $('#username').val(),
+            pw = $('#password').val();
+
+    $.post("{:url('business/login/checkAll')}", {
+      username:username,
+      password:pw
+    }, function (result) {
+      if(result){
+        if(result.code == '0'){
+           layer.msg(result.msg);
+        }else if(result.code == '5'){
+          layer.msg(result.msg);
+          $('.captcha').show();
+          $('#captcha').children('img').attr('src', "{:url('business/login/captcha')}");
+        }else if(result.code == '1'){
+          $(_btn).parents('form:first').submit();
+        }
+      }
+    }, 'json')
+  }
+
+</script>

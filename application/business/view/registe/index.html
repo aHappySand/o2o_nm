@@ -1,8 +1,12 @@
 <!--包含头部文件-->
 {include file="public/header" /}
-<div class="cl pd-5 bg-1 bk-gray mt-20"> <h1>商户入驻申请</h1></div>
+{block name="stylesheet_head" }
+	<link rel="stylesheet" type="text/css" href="__STATIC__/uploadify/uploadify.css" />
+{/block}
+<div class="cl pd-5 bg-1 bk-gray mt-20" style="text-align: center;"> <h1>商户入驻申请</h1><span style="    margin-right: 20px;
+    float: right;">已有账号，去<a href="{:url('business/login/index')}">登录</a></span></div>
 <article class="page-container">
-	<form class="form form-horizontal"  method="post" action="">
+	<form class="form form-horizontal"  method="post" action="{:url('business/registe/add')}" >
 	基本信息：
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商户名称：</label>
@@ -31,7 +35,12 @@
 				</span> 
 			</div>
 		</div>
-		
+		<div class="row cl" id="hasflash" style="display: none;">
+			<label class="form-label col-xs-4 col-sm-2"></label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<a href="https://get.adobe.com/cn/flashplayer/"; class="flashLoadMsg" target="_blank">安装或者启用FLASH播放器</a>
+			</div>
+		</div>
 		<div class="row cl">
               <label class="form-label col-xs-4 col-sm-2">缩略图：</label>
               <div class="formControls col-xs-8 col-sm-9">
@@ -109,21 +118,21 @@
 			<div class="formControls col-xs-8 col-sm-3"> <span class="select-box">
 				<select name="category_id" class="select categoryId">
 					<option value="0">--请选择--</option>
-					
-					<option value=""></option>
-					
+					{volist name="catigorys" id="category"}
+						<option value="{$key}">{$category}</option>
+					{/volist}
 				</select>
 				</span> 
 			</div>
 		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">所属子类：</label>
-			<div class="formControls col-xs-8 col-sm-3 skin-minimal">
-				<div class="check-box se_category_id">
+		<!--<div class="row cl">-->
+			<!--<label class="form-label col-xs-4 col-sm-2">所属子类：</label>-->
+			<!--<div class="formControls col-xs-8 col-sm-3 skin-minimal">-->
+				<!--<div class="check-box se_category_id">-->
 
-				</div>
-			</div>
-		</div>
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">商户地址：</label>
 			<div class="formControls col-xs-8 col-sm-3">
@@ -149,19 +158,19 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">用户名:</label>
 			<div class="formControls col-xs-8 col-sm-3">
-				<input type="text" class="input-text" value="" placeholder="" id="" name="username">
+				<input type="text" class="input-text" value="" placeholder="" id="username" name="username">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">密码:</label>
 			<div class="formControls col-xs-8 col-sm-3">
-				<input type="password" class="input-text" value="" placeholder="" id="" name="password">
+				<input type="password" class="input-text" value="" placeholder="长度>=5" id="password" name="password">
 			</div>
 		</div>
 		
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-				<button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 申请</button>	
+				<button  class="btn btn-primary radius" type="button" onclick="checkUserName(this)"><i class="Hui-iconfont">&#xe632;</i> 申请</button>
 			</div>
 		</div>
 	</form>
@@ -173,11 +182,48 @@
 <script type="text/javascript" src="__STATIC__/admin/hui/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
 <script type="text/javascript" src="__STATIC__/admin/hui/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 <!--分配编辑器-->
+
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.js"></script>
+<script type="text/javascript" src="__ADMIN_STATIC__/js/image.js"></script>
+
+
 <script>
 $(function(){
 	var ue = UE.getEditor('editor');
 	var ue1 = UE.getEditor('editor1');
+
+
 });
+
+	function checkUserName(_btn){
+		var username = $('#username').val().replace(/\s/g, '');
+		if(username === ''){
+			layer.msg('请输入用户名');
+			return false;
+		}else if(username.length < 5){
+			layer.msg('用户名太短');
+			return false;
+		}else if($('#password').val().replace(/\s/g, '').length < 5){
+			layer.msg('密码太短，至少5位！');
+			return false;
+		}
+
+		var data = {username: username};
+		$.post("{:url('business/login/checkName')}", data, function (result) {
+			if(result){
+				if(result['code'] == '5'){
+					layer.msg('输入次数过多，请稍后再试！');
+				}else if(result['code'] == 1){
+					$(_btn).parents('form:first').submit();
+				}else{
+					layer.msg('该用户名已存在，请重新输入');
+				}
+			}else{
+				layer.msg('请联系系统管理员');
+			}
+		}, 'json');
+
+	}
 </script>
 </body>
 </html>
