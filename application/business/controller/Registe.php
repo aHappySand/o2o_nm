@@ -23,7 +23,7 @@ class Registe extends Base
 
         $catigory = new CategoryService();
         $catigorys = $catigory->getSelectOption();
-        $this->assign('catigorys', $catigorys);
+        $this->assign('categorys', $catigorys);
         return $this->fetch();
     }
 

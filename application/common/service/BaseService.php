@@ -22,7 +22,7 @@ class BaseService
      * @param int $perPage 每页多少项
      * @return mixed
      */
-    public function some($where, $currentPage = 1, $perPage = 10, $order)
+    public function some($where, $currentPage = 1, $perPage = 10, $order = "")
     {
         return $this->model->where($where)->order($order)->paginate(array(
             'list_rows' => $perPage,
@@ -30,9 +30,9 @@ class BaseService
         ));
     }
 
-    public function all($where = null, $order = null)
+    public function all($where = null, $order = null, $field = "*")
     {
-        return $this->model->where($where)->order($order)->select();
+        return $this->model->field($field)->where($where)->order($order)->select();
     }
 
     public function create($data)

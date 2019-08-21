@@ -2,7 +2,7 @@
 {include file="public/header" /}
 <div class="cl pd-5 bg-1 bk-gray mt-20"> 添加团购商品信息</div>
 <article class="page-container">
-	<form class="form form-horizontal" id="form-article-add" method="post" action="{:url('deal/add')}">
+	<form class="form form-horizontal" id="form-article-add" method="post" action="{:url('product/add')}">
 	基本信息：
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>团购名称：</label>
@@ -18,7 +18,7 @@
 				<select name="city_id" class="select cityId">
 					<option value="0">--请选择--</option>
 					{volist name="citys" id="vo"}
-					<option value="{$vo.id}">{$vo.name}</option>
+					<option value="{$vo.id}">{$vo.item}</option>
 					{/volist}
 				</select>
 				</span>
@@ -38,31 +38,36 @@
 				<select name="category_id" class="select categoryId">
 					<option value="0">--请选择--</option>
 					{volist name="categorys" id="vo"}
-					<option value="{$vo.id}">{$vo.name}</option>
+					<option value="{$key}">{$vo}</option>
 					{/volist}
 				</select>
 				</span>
 			</div>
 		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">所属子类：</label>
-			<div class="formControls col-xs-8 col-sm-3 skin-minimal">
-				<div class="check-box se_category_id">
-				</div>
-			</div>
-		</div>
+		<!--<div class="row cl">-->
+			<!--<label class="form-label col-xs-4 col-sm-2">所属子类：</label>-->
+			<!--<div class="formControls col-xs-8 col-sm-3 skin-minimal">-->
+				<!--<div class="check-box se_category_id">-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
 
 		<div class="row cl">
 			<label class="form-label col-xs-9 col-sm-2">支持门店：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 				<div class="check-box">
-				
-				<input name="location_ids[]" type="checkbox" id="checkbox" value=""/>
-				
+				{volist name="shops" id="shop"}
+				<input name="location_ids[]" type="checkbox" id="checkbox" value="{$shop->id}"/> {$shop->name}
+				{/volist}
 				</div>
 			</div>
 		</div>
-	
+		<div class="row cl" id="hasflash" style="display: none;">
+			<label class="form-label col-xs-4 col-sm-2"></label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<a href="https://get.adobe.com/cn/flashplayer/"; class="flashLoadMsg" target="_blank">安装或者启用FLASH播放器</a>
+			</div>
+		</div>
 		<div class="row cl">
               <label class="form-label col-xs-4 col-sm-2">缩略图：</label>
               <div class="formControls col-xs-8 col-sm-9">
@@ -75,7 +80,7 @@
 			<label class="form-label col-xs-4 col-sm-2">团购开始时间：</label>
 			<div class="formControls col-xs-8 col-sm-3">
 				
-				<input type="text" name="start_time" class="input-text" id="countTimestart" onfocus="selecttime(1)" value=""  > 
+				<input type="text" name="start_time" class="input-text Wdate" id="countTimestart" onfocus="selecttime(1)" value=""  >
 
 			</div>
 		</div>
@@ -83,7 +88,7 @@
 			<label class="form-label col-xs-4 col-sm-2">团购结束时间:</label>
 			<div class="formControls col-xs-8 col-sm-3">
 				
-				<input type="text" name="end_time" class="input-text" id="countTimestart" onfocus="selecttime(1)" value=""  >
+				<input type="text" name="end_time" class="input-text Wdate" id="countTimestart" onfocus="selecttime(1)" value=""  >
 			</div>
 		</div>
 		<div class="row cl">
@@ -107,15 +112,14 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">消费券生效时间：</label>
 			<div class="formControls col-xs-8 col-sm-3">
-				
-				<input type="text" name="coupons_begin_time" class="input-text" id="countTimestart" onfocus="selecttime(1)" value=""  >
+				<input type="text" name="coupons_begin_time" class="input-text Wdate" id="countTimestart" onfocus="selecttime(1)" value=""  >
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">消费券结束时间:</label>
 			<div class="formControls col-xs-8 col-sm-3">
 				
-				<input type="text" name="coupons_end_time" class="input-text" id="countTimestart" onfocus="selecttime(1)" value=""  >
+				<input type="text" name="coupons_end_time" class="input-text Wdate" id="countTimestart" onfocus="selecttime(1)" value=""  >
 			</div>
 		</div>
 		<div class="row cl">
@@ -133,7 +137,7 @@
 		
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-				<button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 申请</button>	
+				<button class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 申请</button>
 			</div>
 		</div>
 	</form>
@@ -154,6 +158,12 @@ var SCOPE = {
 <script type="text/javascript" src="__STATIC__/admin/hui/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
 <script type="text/javascript" src="__STATIC__/admin/hui/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 <script src="__STATIC__/admin/hui/lib/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.js"></script>
+<script type="text/javascript" src="__ADMIN_STATIC__/js/image.js"></script>
+<script type="text/javascript" src="__ADMIN_STATIC__/js/common.js"></script>
+
+
 <script>
 $(function(){
 	var ue = UE.getEditor('editor');
