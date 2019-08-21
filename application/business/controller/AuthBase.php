@@ -2,6 +2,7 @@
 namespace app\business\controller;
 
 use app\common\controller\Base;
+use app\common\service\TokenService;
 
 class AuthBase extends Base
 {
@@ -11,26 +12,37 @@ class AuthBase extends Base
     public function _initialize()
     {
         parent::_initialize();
-        $this->checkToken();
+        $this->checkSession();
+    }
+
+    public function checkSession()
+    {
+        if(empty(session_business('login_user'))){
+            $this->redirect(url('business/login/index'));
+        }
+    }
+
+    public function getLoginUser(){
+        return session_business('login_user');
     }
 
     protected function checkToken()
     {
-        $token = isset($_SERVER['HTTP_X_TOKEN']) ? $_SERVER['HTTP_X_TOKEN'] : $_GET['token'];
+        $token = isset($_SERVER['HTTP_X_TOKEN']) ? $_SERVER['HTTP_X_TOKEN'] : (isset($_GET['token']) ? $_GET['token']:false);
         if (empty($token)) {
             return $this->runtError('没有token', '400201');
         }
-        $pcTokenService = new PcTokenService();
+        $pcTokenService = new TokenService();
         $userToken = $pcTokenService->oneByToken($token);
         if (empty($userToken)) {
             return $this->runtError('token无效', '400202');
         }
 
-        if ($userToken['time_out'] < NOW_TIME) {
+        if ($userToken->time_out < NOW_TIME) {
             return $this->runtError('token过期', '400203');
         }
         //更新token
-        $pcTokenService->extensionTimeOut($token);
+//        $pcTokenService->extensionTimeOut($token);
 
         $this->loginInfo = $userToken;
         $this->uid = $userToken['uid'];

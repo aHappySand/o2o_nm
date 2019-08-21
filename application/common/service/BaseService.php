@@ -7,7 +7,7 @@ class BaseService
 
     public function one($where, $field = '*', $orderBy = '')
     {
-        return $this->model->find($where, $field, $orderBy);
+        return $this->model->findOne($where, $field, $orderBy);
     }
 
     public function deleteSome($where)

@@ -11,13 +11,13 @@
 // 应用公共文件
 function categoryStatus($status){
     switch($status){
-        case 1:
+        case 2:
             $str = "<span class='label label-success radius'>正常</span>";
             break;
-        case 0:
+        case 1:
             $str = "<span class='label label-default radius'>待审</span>";
             break;
-        default:
+        case 0:
             $str = "<span class='label label-danger radius'>删除</span>";
     }
     return $str;
@@ -365,7 +365,7 @@ function get_tb_goods_id($url)
 
 function create_token($id, $out_time)
 {
-    return substr(md5($id . $out_time), 5, 26);
+    return substr(md5($id . $out_time.time()), 5, 26);
 }
 
 function show_safe_str($string, $star = 4, $end = 3)

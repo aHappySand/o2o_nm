@@ -28,15 +28,15 @@
 
       <div class="row cl captcha">
         <label class="form-label col-xs-3">验证码</label>
-        <div class="formControls col-xs-8">
-          <input id="" name="captcha" type="text" placeholder="验证码" class="input-text size-L">
+        <div class="formControls col-xs-8" id="captcha-text">
+
         </div>
       </div>
 
       <div class="row cl captcha">
         <label class="form-label col-xs-3"> </label>
         <div class="formControls col-xs-8">
-          <div id="captcha">{:captcha_img()}</div>
+          <div id="captcha"><img src=""></div>
         </div>
       </div>
 
@@ -62,17 +62,23 @@
     var username = $('#username').val(),
             pw = $('#password').val();
 
-    $.post("{:url('business/login/checkAll')}", {
+    var data = {
       username:username,
       password:pw
-    }, function (result) {
+    };
+
+
+
+    $.post("{:url('business/login/checkAll')}", data, function (result) {
       if(result){
         if(result.code == '0'){
            layer.msg(result.msg);
         }else if(result.code == '5'){
           layer.msg(result.msg);
-          $('.captcha').show();
+          $('#captcha-text').html('<input id="" name="captcha" type="text" placeholder="验证码" class="input-text size-L">');
           $('#captcha').children('img').attr('src', "{:url('business/login/captcha')}");
+
+          $('.captcha').show();
         }else if(result.code == '1'){
           $(_btn).parents('form:first').submit();
         }

@@ -50,6 +50,9 @@ class Registe extends Base
         if($businessValidate->check($businessData)){
             unset($businessData['category_id']);
 
+            $category = new CategoryService();
+            $oneCategory = $category->one(input('category_id'));
+
             $address = input('address');
             $shopData = [
                 'name' => $businessData['name'],
@@ -65,7 +68,7 @@ class Registe extends Base
                 'city_id' => $businessData['city_id'],
                 'city_path' => $businessData['city_path'],
                 'category_id' => input('category_id'),
-                'catetory_path' => input('bank_info'),
+                'category_path' => $oneCategory->parent_path,
             ];
 
             Db::startTrans();
@@ -85,8 +88,6 @@ class Registe extends Base
                     }
                 }
 
-                $shop = new ShopService();
-                $shop->create($shopData);
 
                 $salt = runt_create_salt();
                 $pw = runt_hash_password(input('password'), $salt);
@@ -99,9 +100,17 @@ class Registe extends Base
                 $user = new BusinessUser();
                 $newUser = $user->create($dataUser);
                 if(!empty($newUser)){
+
+
+                    $shopData['uid'] = $newUser->id;
+                    $shop = new ShopService();
+                    $shop->create($shopData);
+
+
                     Db::commit();
                     $this->redirect(url('business/login/index'));
                 }
+
                 Db::rollback();
                 return $this->runtError('创建失败，请联系系统管理员');
             }catch(Exception $e){

@@ -11,4 +11,13 @@ class ShopService extends BaseService
     {
         $this->model = new Shop();
     }
+
+    public function getShopList()
+    {
+        $user = session_business('login_user');
+        return $this->model->name('shop')
+            ->where(array('uid' => $user->id, 'status' => ['<>', Shop::STATUS_DELETE]))
+            ->order('create_time', 'desc')
+            ->paginate(1);
+    }
 }
